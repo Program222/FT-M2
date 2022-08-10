@@ -1,0 +1,6 @@
+.cards_container {
+    background-color: rgba(7, 29, 29, 0.63);
+    display: inline-block;
+    border-radius: 2em;
+    border:outset rgb(71, 71, 71); 
+}
