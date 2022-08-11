@@ -53,14 +53,28 @@ ToDo.prototype.completeToDo = function(){
 //    8) Devolver la variable toDoShell
 
 
-function buildToDo(todo, index) {
-  // Tu código acá:
-  let toDoShell = document.createElement("div");
-  toDoShell.className = "toDoShell";
+function buildToDo(todo, index){
+  //Tu código acá:
+  let toDoShell = document.createElement('div'),
+    toDoText = document.createElement('span'),
+    checkbox = document.createElement("input");
 
-  let toDoText = document.createElement("span");
+  checkbox.type = 'checkbox';
 
+  toDoShell.className = 'toDoShell';
+  toDoText.innerHTML = todo.description;
 
+  if (todo.complete === true) {
+    checkbox.className = 'completeCheckbox';
+    checkbox.checked = true;
+  }
+
+  toDoShell.appendChild(toDoText);
+
+  checkbox.id = index;
+  checkbox.addEventListener('click', completeToDo);
+  toDoShell.appendChild(checkbox);
+  return toDoShell
 }
 
 // La función 'buildToDos' debe crear un array de objetos toDo y devolverlo
@@ -69,10 +83,9 @@ function buildToDo(todo, index) {
 // Devolver el nuevo array
 
 function buildToDos(toDos) {
-  // Tu código acá:
-
+  //Tu código acá:
+  return toDos.map(buildToDo);
 }
-
 
 // La función 'displayToDos' se va a encargar de que se vean los toDo's en pantalla
 //  1) Seleccionr el elemento cuyo id es 'toDoContainer' y almacenarlo en una variable denominada 'toDoContainer'
@@ -84,10 +97,12 @@ function buildToDos(toDos) {
 //  6) Abrir o en el caso de ya tenerlo abierto, recargar, la página
 
 function displayToDos() {
-  // Tu código acá:
-
+  //Tu código acá:
+  let toDoContainer = document.querySelector('#toDoContainer')
+  toDoContainer.innerHTML = "";
+  let array = buildToDos(toDoItems);
+  array.map(function(e){return toDoContainer.appendChild(e)})
 }
-
 
 // La función 'addToDo' agregará un nuevo ToDo al array 'toDoItems'
 // [NOTA: Algunas cuestiones a tener en cuenta sobre el elemento 'input' de HTML (Ya que 'toDoInput' es un input)
@@ -99,8 +114,14 @@ function displayToDos() {
 //  4) Llamar a la función displayToDos para que se actualicen los toDos mostrados en pantalla
 
 function addToDo() {
-  // Tu código acá:
-
+  //Tu código acá:
+  let input = document.querySelector('#toDoInput');
+  if (input.value !== "") {
+    let newToDo = new ToDo(input.value);
+    toDoItems.push(newToDo);
+    input.value = '';
+    displayToDos();
+  }
 }
 
 // Agregar un 'Event Listener' para que cada vez que el botón 'AGREGAR' sea clickeado
@@ -110,6 +131,8 @@ function addToDo() {
 
 // Tu código acá:
 
+let add = document.querySelector('#addButton')
+add.addEventListener('click', addToDo)
 
 // La función completeToDo se va a ejecutar cuando queramos completar un todo
 // [NOTA: Algunas cuestiones a tener en cuenta
@@ -125,11 +148,11 @@ function addToDo() {
 
 function completeToDo(event) {
   // DESCOMENTAR LA SIGUIENTE LINEA
-  // const index = event.target.id;
+  const index = event.target.id;
   // Tu código acá:
-
+  toDoItems[index].completeToDo();
+  displayToDos();
 }
-
 // Una vez que llegaste a este punto verificá que todos los tests pasen
 
 

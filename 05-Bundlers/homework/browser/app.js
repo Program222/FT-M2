@@ -21,7 +21,7 @@
   socket.on('draw', function (start, end, color) {
     whiteboard.draw(start, end, color, false);
   });
-
+ 
   whiteboard.on('draw', function (start, end, color) {
     socket.emit('draw', start, end, color);
   });

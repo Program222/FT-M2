@@ -25,4 +25,4 @@ export default function Card ({min, max, name, img, onClose, id}) {
         </div>
       </div>
     );
-};
+}; 
